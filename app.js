@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
-const secret = "1"
+const secret = ""
 
 userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"]})
 
@@ -36,19 +36,19 @@ app.route("/register")
   })
 
   .post(function (req, res) {
-  const newUser = new User({
-    email: req.body.username,
-    password: req.body.password
+    const newUser = new User({
+      email: req.body.username,
+      password: req.body.password
+    });
+    
+    newUser.save(function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("secrets");
+      }
+    });
   });
-  
-  newUser.save(function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("secrets");
-    }
-  });
-});
 
 app.route("/login")
   .get(function (req, res) {
